@@ -1,0 +1,1 @@
+kotlinc source/ -d codenames.jar -include-runtime
