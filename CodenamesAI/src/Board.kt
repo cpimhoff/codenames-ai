@@ -72,12 +72,40 @@ class Board(val cards : List<WordCard>) {
 
 	// description of the board with all information
 	fun printFull() {
+		val rows = 4
+		val columns = cards.size / rows
 
+		println()
+		for (i in 0..cards.size - 1) {
+			val card = cards[i]
+			print(card.toString() + "  ")
+			if (i != 0 && i % columns == 0) {
+				println()	// newline
+			}
+		}
+		println()
 	}
 
 	// description of the board with only guesser-revealed information
 	fun printHidden() {
-		
+		val rows = 4
+		val columns = cards.size / rows
+
+		println()
+		for (i in 0..cards.size - 1) {
+			val card = cards[i]
+			
+			if (card.revealed) {
+				print(card.toString() + "  ")
+			} else {
+				print(card.toHiddenString() + "  ")
+			}
+
+			if (i != 0 && i % columns == 0) {
+				println()	// newline
+			}
+		}
+		println()
 	}
 
 }
