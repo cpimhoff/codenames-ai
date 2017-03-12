@@ -1,6 +1,5 @@
 package constants
 
-import java.util.ArrayList
 import java.io.File
 
 //
@@ -13,15 +12,15 @@ val redCardCount = 9
 val blueCardCount = 8
 val bystanderCardCount = 7
 
-val totalCards = assassinCardCount + redCardCount + blueCardCount + bystanderCardCount
+val totalCardCount = assassinCardCount + redCardCount + blueCardCount + bystanderCardCount
 
 val redGoesFirst = true
 
-fun allCodenameWords() : ArrayList<String> {
+fun allCodenameWords() : List<String> {
 	val allWords = File("CodenameWords.txt")
 	val lines = allWords.readLines()
 
-	val result = ArrayList<String>()
+	val result = mutableListOf<String>()
 	lines.forEach {
 		if (it != "") {
 			result.add(it)

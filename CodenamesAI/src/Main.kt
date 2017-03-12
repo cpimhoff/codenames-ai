@@ -2,6 +2,8 @@ fun main(args: Array<String>) {
 
 	// Game setup:
     // 1. Init board with random words and assignments to teams
+    val board = Board.create()
+    println(board.cards)
     // 2. Init agents
     // 3. Begin game with Red Team
 
