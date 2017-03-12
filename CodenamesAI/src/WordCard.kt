@@ -1,5 +1,3 @@
-package codenames
-
 enum class CardType {
 	BLUE, RED, NEUTRAL, ASSASSIN
 }

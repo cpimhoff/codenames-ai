@@ -1,5 +1,3 @@
-package codenames.const
-
 import java.util.ArrayList
 import java.io.File
 
