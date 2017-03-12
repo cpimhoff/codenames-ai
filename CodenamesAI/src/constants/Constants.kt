@@ -1,8 +1,10 @@
+package constants
+
 import java.util.ArrayList
 import java.io.File
 
 //
-// 	Constants to approxmimate the official game
+// 	Constants to approximate the official game
 //	http://czechgames.com/files/rules/codenames-rules-en.pdf
 //
 
