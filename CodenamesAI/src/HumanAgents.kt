@@ -22,12 +22,10 @@ class HumanHintAgent : HintAgent {
 		// print information to screen
 		board.printHinterView()
 
+        val teamColor = if (onRedTeam) "Red" else "Blue"
+
 		// prompt
-		if (onRedTeam) {
-			println("Give Hint for Red Team:")
-		} else {
-			println("Give Hint for Blue Team:")
-		}
+        println("Give Hint for $teamColor Team:")
 
 		// loop until a successfully parsed hint
 		while (true) {
