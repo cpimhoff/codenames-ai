@@ -6,11 +6,8 @@ class HumanGuessAgent : GuessAgent {
 		// prompt
 		println("Give guess for hint: ")
 
-		// get input
-		val guess = readLine()
-		if (guess == null) {
-			kotlin.system.exitProcess(0)	// end of feed, exit
-		}
+		// get input or exit if input is null
+		val guess = readLine() ?: kotlin.system.exitProcess(0)
 
 		return guess
 	}
@@ -22,19 +19,15 @@ class HumanHintAgent : HintAgent {
 		// print information to screen
 		board.printHinterView()
 
+		val teamColor = if (onRedTeam) "Red" else "Blue"
+
 		// prompt
-		if (onRedTeam) {
-			println("Give Hint for Red Team:")
-		} else {
-			println("Give Hint for Blue Team:")
-		}
+		println("Give Hint for $teamColor Team:")
 
 		// loop until a successfully parsed hint
 		while (true) {
-			val input = readLine()
-			if (input == null) {
-				kotlin.system.exitProcess(0)	// end of feed, exit
-			}
+			// Read input, or exit if input is null:
+			val input = readLine() ?: kotlin.system.exitProcess(0)
 
 			try {
 				val tokens = input.split(" ")
@@ -49,7 +42,7 @@ class HumanHintAgent : HintAgent {
 				continue	// try again
 			}
 
-			
+
 		}
 	}
 }
