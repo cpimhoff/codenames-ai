@@ -1,6 +1,5 @@
 import constants.*
-
-import java.util.Random
+import java.util.*
 
 class Board(val cards : List<WordCard>) {
 
