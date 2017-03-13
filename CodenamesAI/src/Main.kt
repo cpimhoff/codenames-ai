@@ -38,6 +38,9 @@ fun main(args: Array<String>) {
             if (!accurateGuess) {
                 break   // no more guess attempts
             }
+
+            // decrement hint
+            hint.decrement()
         }
 
         // check game end state

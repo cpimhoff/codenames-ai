@@ -1,14 +1,10 @@
-data class Hint(val word: String, val number: Int) {
+data class Hint(val word: String, var number: Int) {
 	override fun toString() : String {
 		return word + ", " + number
 	}
 
-	fun decremented() : Hint? {
-		if (this.number - 1 <= 0) {
-			return null
-		} else {
-			return Hint(this.word, number - 1)
-		}
+	fun decrement() {
+		this.number -= 1
 	}
 }
 
