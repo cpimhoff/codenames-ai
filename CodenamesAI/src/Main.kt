@@ -13,13 +13,13 @@ fun main(args: Array<String>) {
 
     // Main game loop
     while (true) {
-        val currentHinter : HintAgent = if(isRedTeamTurn) redHinter else blueHinter
-        val currentGuesser : GuessAgent = if(isRedTeamTurn) redGuesser else blueGuesser
+        val currentHinter : HintAgent = if (isRedTeamTurn) redHinter else blueHinter
+        val currentGuesser : GuessAgent = if (isRedTeamTurn) redGuesser else blueGuesser
 
         // get hint
         val hint = currentHinter.getHint(board, isRedTeamTurn)
         // guess words for the amount given by hinter
-        while(hint.number > 0) {
+        while (hint.number > 0) {
             val guess = currentGuesser.getGuess(board.wordsInPlay, hint)
             // determine what card this guess applied to
             val guessedCard = board.findUnrevealedCard(guess)
