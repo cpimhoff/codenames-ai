@@ -13,16 +13,16 @@ fun main(args: Array<String>) {
 
     // Main game loop
     while (true) {
-        var currentHinter : HintAgent = if(isRedTeamTurn) redHinter else blueHinter
-        var currentGuesser : GuessAgent = if(isRedTeamTurn) redGuesser else blueGuesser
+        val currentHinter : HintAgent = if(isRedTeamTurn) redHinter else blueHinter
+        val currentGuesser : GuessAgent = if(isRedTeamTurn) redGuesser else blueGuesser
 
         // get hint
-        var hint = currentHinter.getHint(board, isRedTeamTurn)
+        val hint = currentHinter.getHint(board, isRedTeamTurn)
         // guess words for the amount given by hinter
         while(hint.number > 0) {
             val guess = currentGuesser.getGuess(board.wordsInPlay, hint)
             // determine what card this guess applied to
-            var guessedCard = board.findUnrevealedCard(guess)
+            val guessedCard = board.findUnrevealedCard(guess)
             if (guessedCard == null) {
                 println("could not match guess to a card on the board")
                 continue    // try again
