@@ -71,14 +71,18 @@ class Board(val cards : List<WordCard>) {
 	}
 
 	// description of the board with all information
-	fun printFull() {
+	fun printHinterView() {
 		val rows = 4
 		val columns = cards.size / rows
 
 		println()
 		for (i in 0..cards.size - 1) {
 			val card = cards[i]
-			print(card.toString() + "  ")
+			if (card.revealed) {
+				print("        ")	// empty spot
+			} else {
+				print(card.toString() + "  ")
+			}
 			if (i != 0 && i % columns == 0) {
 				println()	// newline
 			}
@@ -87,7 +91,7 @@ class Board(val cards : List<WordCard>) {
 	}
 
 	// description of the board with only guesser-revealed information
-	fun printHidden() {
+	fun printGuesserView() {
 		val rows = 4
 		val columns = cards.size / rows
 
@@ -96,7 +100,7 @@ class Board(val cards : List<WordCard>) {
 			val card = cards[i]
 			
 			if (card.revealed) {
-				print(card.toString() + "  ")
+				print("        ")	// empty spot
 			} else {
 				print(card.toHiddenString() + "  ")
 			}
@@ -107,5 +111,16 @@ class Board(val cards : List<WordCard>) {
 		}
 		println()
 	}
+
+	val wordsInPlay : List<String>
+		get() {
+			val result = mutableListOf<String>()
+			for (card in this.cards) {
+				if (!card.revealed) {
+					result.add(card.word)
+				}
+			}
+			return result
+		}
 
 }
