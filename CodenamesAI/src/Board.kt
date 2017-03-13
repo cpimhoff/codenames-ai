@@ -70,6 +70,15 @@ class Board(val cards : List<WordCard>) {
 		}
 	}
 
+	fun findUnrevealedCard(guess: String) : WordCard? {
+		for (card in this.cards) {
+            if (card.word.toLowerCase() == guess.toLowerCase() && !card.revealed) {
+                return card
+            }
+        }
+        return null   // not found
+	}
+
 	// description of the board with all information
 	fun printHinterView() {
 		val rows = 4
