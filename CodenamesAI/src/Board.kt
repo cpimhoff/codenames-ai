@@ -59,6 +59,8 @@ class Board(val cards : List<WordCard>) {
 				indexSet.add(index)
 			}
 
+			// TODO: BUG: Sometimes duplicate words get placed on board
+
 			// gather up the indexed words into a list
 			val words = mutableListOf<String>()
 			for (index in indexSet) {
