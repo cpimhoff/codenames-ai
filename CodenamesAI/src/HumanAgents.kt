@@ -6,13 +6,10 @@ class HumanGuessAgent : GuessAgent {
 		// prompt
 		println("Give guess for hint: ")
 
-		// get input
-		val guess = readLine()
-		if (guess == null) {
-			kotlin.system.exitProcess(0)	// end of feed, exit
-		}
-
-		return guess
+		// get input or exit if input is null
+        val guess = readLine() ?: kotlin.system.exitProcess(0)
+        
+        return guess
 	}
 }
 
@@ -29,12 +26,10 @@ class HumanHintAgent : HintAgent {
 
 		// loop until a successfully parsed hint
 		while (true) {
-			val input = readLine()
-			if (input == null) {
-				kotlin.system.exitProcess(0)	// end of feed, exit
-			}
+            // Read input, or exit if input is null:
+            val input = readLine() ?: kotlin.system.exitProcess(0)
 
-			try {
+            try {
 				val tokens = input.split(" ")
 				val word = tokens[0]
 				val number = tokens[1].toInt()
