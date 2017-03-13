@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
             // determine what card this guess applied to
             var guessedCard = board.findUnrevealedCard(guess)
             if (guessedCard == null) {
-                println("could not match the guess to a card on the board")
+                println("could not match guess to a card on the board")
                 continue    // try again
             }
 
@@ -40,17 +40,37 @@ fun main(args: Array<String>) {
             }
         }
 
-        // check for win condition
+        // check game end state
+        if (isGameOver(board, isRedTeamTurn)) {
+            break
+        }
 
+        // progress to next turn
+        isRedTeamTurn = !isRedTeamTurn
+    }
+}
+
+fun isGameOver(board: Board, isRedTeamTurn: Boolean) : Boolean {
+    if (board.redCardsLeft.size == 0) {
+        // red win
+        println("Red team has activated all their cards!")
+        println("Red team wins!")
+        return true
+    } else if (board.blueCardsLeft.size == 0) {
+        // blue win
+        println("Blue team has activated all their cards!")
+        println("Blue team wins!")
+        return true
+    } else if (board.assassinCardsLeft.size == 0) {
+        // whoever went last loss
+        println("BOOM! Assassin has been actived!")
+        if (isRedTeamTurn) {
+            println("Blue team wins!")
+        } else {
+            println("Red team wins!")        
+        }
+        return true
     }
 
-    // Main loop:
-    //  1. Determine whose turn it is
-    //  2. Give board to hinter of that team, receive Hint (String, Int)
-    //  3. while (guess is in range(number of words), no incorrect guesses) {
-    //      4. Get guess from guesser
-    //      5. Check guess, update board
-    //  }
-    //  6. Check for win
-
+    return false
 }

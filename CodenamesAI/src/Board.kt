@@ -132,4 +132,48 @@ class Board(val cards : List<WordCard>) {
 			return result
 		}
 
+	val blueCardsLeft : List<WordCard>
+		get() {
+			val result = mutableListOf<WordCard>()
+			for (card in this.cards) {
+				if (card.type == CardType.BLUE && !card.revealed) {
+					result.add(card)
+				}
+			}
+			return result
+		}
+
+	val redCardsLeft : List<WordCard>
+		get() {
+			val result = mutableListOf<WordCard>()
+			for (card in this.cards) {
+				if (card.type == CardType.BLUE && !card.revealed) {
+					result.add(card)
+				}
+			}
+			return result
+		}
+
+	val neutralCardsLeft : List<WordCard>
+		get() {
+			val result = mutableListOf<WordCard>()
+			for (card in this.cards) {
+				if (card.type == CardType.NEUTRAL && !card.revealed) {
+					result.add(card)
+				}
+			}
+			return result
+		}
+
+	val assassinCardsLeft : List<WordCard>
+		get() {
+			val result = mutableListOf<WordCard>()
+			for (card in this.cards) {
+				if (card.type == CardType.NEUTRAL && !card.revealed) {
+					result.add(card)
+				}
+			}
+			return result
+		}
+
 }
