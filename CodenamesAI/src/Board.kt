@@ -147,7 +147,7 @@ class Board(val cards : List<WordCard>) {
 		get() {
 			val result = mutableListOf<WordCard>()
 			for (card in this.cards) {
-				if (card.type == CardType.BLUE && !card.revealed) {
+				if (card.type == CardType.RED && !card.revealed) {
 					result.add(card)
 				}
 			}
@@ -169,7 +169,7 @@ class Board(val cards : List<WordCard>) {
 		get() {
 			val result = mutableListOf<WordCard>()
 			for (card in this.cards) {
-				if (card.type == CardType.NEUTRAL && !card.revealed) {
+				if (card.type == CardType.ASSASSIN && !card.revealed) {
 					result.add(card)
 				}
 			}
