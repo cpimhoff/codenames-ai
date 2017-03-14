@@ -22,17 +22,12 @@ class WeightedAIHintAgent : AIHintAgent() {
 	}
 
 	fun score(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Double {
-		val activatedCards = mutableSetOf<WordCard>()
-        for (pair in table.keys) {
-            if (pair.second == hint) {
-            	val card = board.findUnrevealedCard(pair.first)
-            	if (card != null) {
-            		activatedCards.add(card)
-            	}
-            }
-        }
+		val activatedCards = table.keys
+				.filter { it.second == hint }
+				.mapNotNull { board.findUnrevealedCard(it.first) }
+				.toSet()
 
-        var value = 0.0
+		var value = 0.0
         for (card in activatedCards) {
         	val pair = Pair(card.word, hint)
         	val representation = table[pair] ?: 0.0
