@@ -50,9 +50,7 @@ class Board(val cards : List<WordCard>) {
 			val rand = Random()
 			while (indexSet.size < constants.totalCardCount) {
 				val index = rand.nextInt(allWords.size)
-				if (index !in indexSet) {
-					indexSet.add(index)
-				}
+				indexSet.add(index)
 			}
 
 			// gather up the indexed words into a list
