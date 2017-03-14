@@ -18,30 +18,28 @@ class Board(val cards : List<WordCard>) {
 			cardsLeft.put(CardType.NEUTRAL, constants.bystanderCardCount)
 
 			// initialize a card for each word, assigning the appropriate amount of each type
-			val cards = mutableListOf<WordCard>()
-			for (word in words) {
-				for (type in CardType.values()) {
-					val ofTypeLeft = cardsLeft.get(type) ?: 0
-					if (ofTypeLeft > 0) {
-						// construct card of this type
-						val card = WordCard(word, type)
-						cards.add(card)
+            val cards = mutableListOf<WordCard>()
 
-						cardsLeft.put(type, ofTypeLeft - 1)
-					}
-				}
-			}
+            // Shuffle list first:
+            Collections.shuffle(words)
 
-			// shuffle cards
-			val rand = Random()
-		    for (i in 0..cards.size - 1) {
-		        val randomPosition = rand.nextInt(cards.size)
-		        val tmp = cards[i]
-		        cards[i] = cards[randomPosition]
-		        cards[randomPosition] = tmp
-		    }
+            // Now assign roles in order
+            for (i in 0..constants.totalCardCount) {
+                if (i < redCardCount) {
+                    cards.add(WordCard(words[i], CardType.RED))
+                } else if (i < redCardCount + blueCardCount) {
+                    cards.add(WordCard(words[i], CardType.BLUE))
+                } else if (i < redCardCount + blueCardCount + bystanderCardCount) {
+                    cards.add(WordCard(words[i], CardType.NEUTRAL))
+                } else if (i < redCardCount + blueCardCount + bystanderCardCount + assassinCardCount) {
+                    cards.add(WordCard(words[i], CardType.ASSASSIN))
+                }
+            }
 
-			// construct and return board object
+            // Now shuffle list of cards
+            Collections.shuffle(cards)
+
+            // construct and return board object
 			return Board(cards)
 		}
 
@@ -50,23 +48,23 @@ class Board(val cards : List<WordCard>) {
 			// gather all possible words
 			val allWords = constants.allCodenameWords()
 
+            // #option: use all words from association data instead:
+            // val allWords = constants.wordHintMap.keys
+
 			// generate a random set of indices
 			val indexSet = mutableSetOf<Int>()
 			val rand = Random()
 			while (indexSet.size < constants.totalCardCount) {
 				val index = rand.nextInt(allWords.size)
-				indexSet.add(index)
+				if (index !in indexSet) {
+					indexSet.add(index)
+				}
 			}
-
-			// TODO: BUG: Sometimes duplicate words get placed on board
 
 			// gather up the indexed words into a list
-			val words = mutableListOf<String>()
-			for (index in indexSet) {
-				words.add(allWords[index])
-			}
+            val words = indexSet.map { allWords[it] }
 
-			// create board with those random words
+            // create board with those random words
 			return Board.create(words)
 		}
 	}
