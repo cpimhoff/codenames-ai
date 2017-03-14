@@ -1,6 +1,6 @@
 import java.util.*
 
-class AIHintAgent : HintAgent {
+abstract class AIHintAgent : HintAgent {
 
     val wordHintMap = constants.wordHintMap
 
@@ -10,11 +10,12 @@ class AIHintAgent : HintAgent {
         // build a table with representativeness values from candidate --> card
         val representativenessTable = getRepresentativenessTable(candidates, board)
 
-        // TODO: Remove this. Used only for debugging
-        println("Considering hints: ${candidates}")
-
-        return Hint(candidates.first(), 1)
+        // select best option
+        return selectBestHint(representativenessTable)
     }
+
+    // abstract function-ish
+    abstract fun selectBestHint(table: Map<Pair<String, String>, Double>) : Hint
 
     private fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
@@ -31,7 +32,7 @@ class AIHintAgent : HintAgent {
         return candidates
     }
 
-    private fun getRepresentativenessTable(candidates: Set<String>, board: Board) : HashMap<Pair<String, String>, Double> {
+    private fun getRepresentativenessTable(candidates: Set<String>, board: Board) : Map<Pair<String, String>, Double> {
         val table = HashMap<Pair<String, String>, Double>()
 
         for (c in candidates) {
