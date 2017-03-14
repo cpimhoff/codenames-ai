@@ -1,0 +1,61 @@
+
+class WeightedAIHintAgent : AIHintAgent() {
+
+	private val teamCardBonus = 100.0
+	private val otherTeamCardCost = -100.0
+	private val assassinCardCost = -1000.0
+	private val bystanderCardCost = -20.0
+
+	override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint {
+
+		// calculate score for each candidate hint
+		val candidates = getHintCandidates(board, onRedTeam)
+		val scores = HashMap<String, Double>()
+
+		candidates.forEach { scores[it] = score(it, table, board, onRedTeam) }
+
+		// return the maximum
+		val maximumEntry = scores.maxBy { it.value }!!
+		val hintWord = maximumEntry.key
+		return Hint(hintWord, 1)
+	}
+
+	fun score(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Double {
+		val activatedCards = mutableSetOf<WordCard>()
+        for (pair in table.keys) {
+            if (pair.second == hint) {
+            	val card = board.findUnrevealedCard(pair.first)
+            	if (card != null) {
+            		activatedCards.add(card)
+            	}
+            }
+        }
+
+        var value = 0.0
+        for (card in activatedCards) {
+        	val pair = Pair(card.word, hint)
+        	val representation = table[pair] ?: 0.0
+        	when (card.type) {
+				CardType.BLUE -> {
+					if (!onRedTeam) {
+						value += teamCardBonus * representation
+					} else {
+						value += otherTeamCardCost * representation
+					}
+				}
+				CardType.RED -> {
+					if (onRedTeam) {
+						value += teamCardBonus * representation
+					} else {
+						value += otherTeamCardCost * representation
+					}
+				}
+				CardType.NEUTRAL -> value += bystanderCardCost * representation
+				CardType.ASSASSIN -> value += assassinCardCost * representation
+        	}
+        }
+
+        return value
+	}
+
+}

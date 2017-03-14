@@ -4,9 +4,9 @@ fun main(args: Array<String>) {
     // Init board with random words and assignments to teams
     val board = Board.create()
     // Init agents
-    val redHinter : HintAgent = AIHintAgent()        // swap this for AIHintAgent...
+    val redHinter : HintAgent = WeightedAIHintAgent()
     val redGuesser : GuessAgent = HumanGuessAgent()
-    val blueHinter : HintAgent = AIHintAgent()       // swap this for AIHintAgent...
+    val blueHinter : HintAgent = WeightedAIHintAgent()
     val blueGuesser : GuessAgent = HumanGuessAgent()
 
     var isRedTeamTurn = constants.redGoesFirst

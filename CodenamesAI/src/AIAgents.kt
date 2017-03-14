@@ -11,13 +11,13 @@ abstract class AIHintAgent : HintAgent {
         val representativenessTable = getRepresentativenessTable(candidates, board)
 
         // select best option
-        return selectBestHint(representativenessTable)
+        return selectBestHint(representativenessTable, board, onRedTeam)
     }
 
     // abstract function-ish
-    abstract fun selectBestHint(table: Map<Pair<String, String>, Double>) : Hint
+    abstract fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint
 
-    private fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
+    internal fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
         val candidates = mutableSetOf<String>()
 
