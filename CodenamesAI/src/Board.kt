@@ -42,9 +42,6 @@ class Board(val cards : List<WordCard>) {
 			// gather all possible words
 			val allWords = constants.allCodenameWords()
 
-            // #option: use all words from association data instead:
-            // val allWords = constants.wordHintMap.keys
-
 			// generate a random set of indices
 			val indexSet = mutableSetOf<Int>()
 			val rand = Random()
