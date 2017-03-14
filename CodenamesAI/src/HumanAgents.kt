@@ -1,14 +1,11 @@
 class HumanGuessAgent : GuessAgent {
 
 	override fun getGuess(wordsInPlay: List<String>, hint: Hint) : String {
-		println(wordsInPlay)
-
 		// prompt
 		println("Give guess for ${hint.number} card(s) relating to hint ${hint.word}: ")
 
 		// get input or exit if input is null
 		val guess = readLine() ?: kotlin.system.exitProcess(0)
-
 		return guess
 	}
 }

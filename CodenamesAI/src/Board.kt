@@ -97,7 +97,7 @@ class Board(val cards : List<WordCard>) {
 			val card = cards[i]
 			
 			if (card.revealed) {
-				print("        ")	// empty spot
+				print(card.toString() + "  ")
 			} else {
 				print(card.toHiddenString() + "  ")
 			}

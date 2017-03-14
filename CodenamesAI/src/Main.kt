@@ -24,6 +24,8 @@ fun main(args: Array<String>) {
         val hint = currentHinter.getHint(board, isRedTeamTurn)
         // guess words for the amount given by hinter
         while (hint.number > 0) {
+            // show cards
+            board.printGuesserView()
             val guess = currentGuesser.getGuess(board.wordsInPlay, hint)
             // determine what card this guess applied to
             val guessedCard = board.findUnrevealedCard(guess)
