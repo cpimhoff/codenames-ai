@@ -50,7 +50,7 @@ abstract class AIHintAgent : HintAgent {
         var denominator = 0.0
         val probabilityOfWordBeingHinted = 1.0 / constants.totalCardCount
 
-        val x = board.cards.map { it.word.toUpperCase() }
+        board.cards.map { it.word.toUpperCase() }
                 .filter { it != word }
                 .forEach {
                     val alternateWordHint = Pair(it, hint)
