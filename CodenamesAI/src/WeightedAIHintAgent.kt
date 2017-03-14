@@ -5,7 +5,9 @@ class WeightedAIHintAgent : AIHintAgent() {
 	private val teamCardBonus = 100.0
 	private val otherTeamCardCost = -100.0
 	private val assassinCardCost = -1000.0
-	private val bystanderCardCost = -20.0
+	private val bystanderCardCost = -30.0
+
+	private val representativenessThreshold = 0.2
 
 	override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint {
 
@@ -15,10 +17,38 @@ class WeightedAIHintAgent : AIHintAgent() {
 
 		candidates.forEach { scores[it] = score(it, table, board, onRedTeam) }
 
-		// return the maximum
+		// get the maximum scored hint
 		val maximumEntry = scores.maxBy { it.value }!!
 		val hintWord = maximumEntry.key
-		return Hint(hintWord, 1)
+
+		// determine how many good words this activates
+		val count = determineCount(hintWord, table, board, onRedTeam)
+
+		return Hint(hintWord, count)
+	}
+
+	fun determineCount(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Int {
+		val activatedCards = table.keys
+				.filter { it.second == hint }
+				.mapNotNull { board.findUnrevealedCard(it.first) }
+				.toSet()
+
+		var count = 0
+		for (card in activatedCards) {
+			val pair = Pair(card.word, hint)
+        	val representativeness = table[pair] ?: 0.0
+
+        	val teamCard = (onRedTeam && card.type == CardType.RED) || (!onRedTeam && card.type == CardType.BLUE)
+
+        	if (teamCard && representativeness > representativenessThreshold) {
+        		count += 1
+    		}
+		}
+
+		if (count < 1) {
+			return 1	// never give '0' hint
+		}
+		return count
 	}
 
 	fun score(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Double {
@@ -31,6 +61,7 @@ class WeightedAIHintAgent : AIHintAgent() {
         for (card in activatedCards) {
         	val pair = Pair(card.word, hint)
         	val representativeness = table[pair] ?: 0.0
+
         	when (card.type) {
 				CardType.BLUE -> {
 					if (!onRedTeam) {
