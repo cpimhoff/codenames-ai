@@ -31,11 +31,9 @@ fun allCodenameWords() : List<String> {
 	return result
 }
 
-data class WordHintPair(val word: String, val hint: String, val hintProbGivenWord: Double)
-
-val wordHintMap: Map<String, MutableList<WordHintPair>>
+val wordHintMap: Map<Pair<String, String>, Double>
     get() {
-        val wordHintMap = HashMap<String, MutableList<WordHintPair>>()
+        val wordHintMap = HashMap<Pair<String, String>, Double>()
 
         val wordAssociationsData = File("WordAssocData/word.associations.csv")
         val rows = wordAssociationsData.readLines().toMutableList()
@@ -50,16 +48,8 @@ val wordHintMap: Map<String, MutableList<WordHintPair>>
 
             val hintProbabilityGivenWord = columns[7].toDouble()
 
-            val wordHintPair = WordHintPair(word, hint, hintProbabilityGivenWord)
-
-            if (word !in wordHintMap) {
-                wordHintMap.put(word, mutableListOf(wordHintPair))
-            } else {
-                val wordHintPairs: MutableList<WordHintPair> = wordHintMap[word]!!
-                wordHintPairs.add(wordHintPair)
-
-                wordHintMap.put(word, wordHintPairs)
-            }
+            val wordHint = Pair<String, String>(word, hint)
+            wordHintMap.put(wordHint, hintProbabilityGivenWord)
         }
 
         return wordHintMap
