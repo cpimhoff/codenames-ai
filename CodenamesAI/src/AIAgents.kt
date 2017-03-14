@@ -17,7 +17,7 @@ abstract class AIHintAgent : HintAgent {
     // abstract function-ish
     abstract fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint
 
-    private fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
+    internal fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
         val candidates = wordHintMap.keys
                 .filter { pair -> pair.first in teamCards.map { it.word.toUpperCase() } }
