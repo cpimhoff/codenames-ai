@@ -5,7 +5,6 @@ class AIHintAgent : HintAgent {
 
     val wordHintMap = constants.wordHintMap
 
-    // todo: move the boolean (and board?) params to class level?
     override fun getHint(board: Board, onRedTeam: Boolean): Hint {
         val allWordHintPairsForHintCandidates = getWordHintCandidates(board, onRedTeam)
 
