@@ -11,23 +11,21 @@ abstract class AIHintAgent : HintAgent {
         val representativenessTable = getRepresentativenessTable(candidates, board)
 
         // select best option
-        return selectBestHint(representativenessTable)
+        return selectBestHint(representativenessTable, board, onRedTeam)
     }
 
     // abstract function-ish
-    abstract fun selectBestHint(table: Map<Pair<String, String>, Double>) : Hint
+    abstract fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint
 
     private fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
-        val candidates = mutableSetOf<String>()
+        val candidates = wordHintMap.keys
+                .filter { pair -> pair.first in teamCards.map { it.word.toUpperCase() } }
+                .map { it.second }
+                .toSet()
 
         // go through each word-hint we've precalculated
         // and only keep the ones which have a listing for one of our cards on the board
-        for (pair in wordHintMap.keys) {
-            if (pair.first in teamCards.map { it.word.toUpperCase() }) {
-                candidates.add(pair.second)
-            }
-        }
 
         return candidates
     }
@@ -37,7 +35,7 @@ abstract class AIHintAgent : HintAgent {
 
         for (c in candidates) {
             for (w in board.wordsInPlay) {
-                val wordHint = Pair<String, String>(w, c)
+                val wordHint = Pair(w, c)
                 table[wordHint] = representativeness(w, c, board)
             }
         }
@@ -46,16 +44,16 @@ abstract class AIHintAgent : HintAgent {
     }
 
     private fun representativeness(word: String, hint: String, board: Board): Double {
-        val wordHint = Pair<String, String>(word, hint)
+        val wordHint = Pair(word.toUpperCase(), hint.toUpperCase())
         val probabilityOfHintGivenWord = wordHintMap[wordHint] ?: 0.0
 
         var denominator = 0.0
         val probabilityOfWordBeingHinted = 1.0 / constants.totalCardCount
 
-        board.cards.map { it.word }
+        val x = board.cards.map { it.word.toUpperCase() }
                 .filter { it != word }
                 .forEach {
-                    val alternateWordHint = Pair<String, String>(it, hint)
+                    val alternateWordHint = Pair(it, hint)
                     val probabilityOfHintGivenOtherWord = wordHintMap[alternateWordHint] ?: 0.0
 
                     denominator += probabilityOfHintGivenOtherWord * probabilityOfWordBeingHinted

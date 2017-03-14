@@ -4,9 +4,9 @@ fun main(args: Array<String>) {
     // Init board with random words and assignments to teams
     val board = Board.create()
     // Init agents
-    val redHinter : HintAgent = AIHintAgent()        // swap this for AIHintAgent...
+    val redHinter : HintAgent = MaxRepresentativeAIHintAgent()       // swap this for AIHintAgent...
     val redGuesser : GuessAgent = HumanGuessAgent()
-    val blueHinter : HintAgent = AIHintAgent()       // swap this for AIHintAgent...
+    val blueHinter : HintAgent = MaxRepresentativeAIHintAgent()        // swap this for AIHintAgent...
     val blueGuesser : GuessAgent = HumanGuessAgent()
 
     var isRedTeamTurn = constants.redGoesFirst
@@ -56,17 +56,17 @@ fun main(args: Array<String>) {
 }
 
 fun isGameOver(board: Board, isRedTeamTurn: Boolean) : Boolean {
-    if (board.redCardsLeft.size == 0) {
+    if (board.redCardsLeft.isEmpty()) {
         // red win
         println("Red team has activated all their cards!")
         println("Red team wins!")
         return true
-    } else if (board.blueCardsLeft.size == 0) {
+    } else if (board.blueCardsLeft.isEmpty()) {
         // blue win
         println("Blue team has activated all their cards!")
         println("Blue team wins!")
         return true
-    } else if (board.assassinCardsLeft.size == 0) {
+    } else if (board.assassinCardsLeft.isEmpty()) {
         // whoever went last loss
         println("BOOM! Assassin has been actived!")
         if (isRedTeamTurn) {
