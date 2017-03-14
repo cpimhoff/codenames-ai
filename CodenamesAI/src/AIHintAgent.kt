@@ -43,9 +43,11 @@ abstract class AIHintAgent : HintAgent {
         return table
     }
 
+    // Returns the amount this word is envoked by the given hint, compared to the others on the board.
+    // If there is no data on the relationship between these two words, the result is zero.
     private fun representativeness(word: String, hint: String, board: Board): Double {
         val wordHint = Pair(word.toUpperCase(), hint.toUpperCase())
-        val probabilityOfHintGivenWord = wordHintMap[wordHint] ?: 0.0
+        val probabilityOfHintGivenWord = wordHintMap[wordHint] ?: return 0.0
 
         var denominator = 0.0
         val probabilityOfWordBeingHinted = 1.0 / constants.totalCardCount
