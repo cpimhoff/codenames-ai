@@ -59,6 +59,6 @@ abstract class AIHintAgent : HintAgent {
                     denominator += probabilityOfHintGivenOtherWord * probabilityOfWordBeingHinted
                 }
 
-        return probabilityOfHintGivenWord / denominator
+        return Math.log(probabilityOfHintGivenWord / denominator)
     }
 }
