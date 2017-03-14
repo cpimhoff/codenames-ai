@@ -11,12 +11,6 @@ class Board(val cards : List<WordCard>) {
 				println("warning: incorrect amount of words passed to board constructor")
 			}
 
-			val cardsLeft = HashMap<CardType, Int>()
-			cardsLeft.put(CardType.ASSASSIN, constants.assassinCardCount)
-			cardsLeft.put(CardType.RED, constants.redCardCount)
-			cardsLeft.put(CardType.BLUE, constants.blueCardCount)
-			cardsLeft.put(CardType.NEUTRAL, constants.bystanderCardCount)
-
 			// initialize a card for each word, assigning the appropriate amount of each type
             val cards = mutableListOf<WordCard>()
 
