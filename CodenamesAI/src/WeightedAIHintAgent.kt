@@ -30,24 +30,24 @@ class WeightedAIHintAgent : AIHintAgent() {
 		var value = 0.0
         for (card in activatedCards) {
         	val pair = Pair(card.word, hint)
-        	val representation = table[pair] ?: 0.0
+        	val representativeness = table[pair] ?: 0.0
         	when (card.type) {
 				CardType.BLUE -> {
 					if (!onRedTeam) {
-						value += teamCardBonus * representation
+						value += teamCardBonus * representativeness
 					} else {
-						value += otherTeamCardCost * representation
+						value += otherTeamCardCost * representativeness
 					}
 				}
 				CardType.RED -> {
 					if (onRedTeam) {
-						value += teamCardBonus * representation
+						value += teamCardBonus * representativeness
 					} else {
-						value += otherTeamCardCost * representation
+						value += otherTeamCardCost * representativeness
 					}
 				}
-				CardType.NEUTRAL -> value += bystanderCardCost * representation
-				CardType.ASSASSIN -> value += assassinCardCost * representation
+				CardType.NEUTRAL -> value += bystanderCardCost * representativeness
+				CardType.ASSASSIN -> value += assassinCardCost * representativeness
         	}
         }
 
