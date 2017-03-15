@@ -27,7 +27,6 @@ fun main(args: Array<String>) {
 
         println()
         println(if (isRedTeamTurn) "${ANSI_RED}RED TEAM'S TURN $ANSI_RESET" else "${ANSI_BLUE}BLUE TEAM'S TURN $ANSI_RESET")
-        println()
 
         // get hint
         val hint = currentHinter.getHint(board, isRedTeamTurn)
