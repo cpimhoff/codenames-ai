@@ -20,7 +20,7 @@ abstract class AIHintAgent : HintAgent {
         return hint
     }
 
-    // abstract function-ish
+    // abstract function to select a hint given a table of representativeness
     abstract fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint
 
     // returns a list of hints worth considering
