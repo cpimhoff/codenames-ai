@@ -7,6 +7,10 @@ fun main(args: Array<String>) {
 
     // Init hint agents from CLI arguments
     val argMap = createArgMapFromArgs(args)
+    if ("-h" in args || "-help" in args) {
+        printHelp()
+        return
+    }
     val blueHinter : HintAgent = getHinterFromArgMap("-blueHinter", argMap)
     val redHinter : HintAgent = getHinterFromArgMap("-redHinter", argMap)
 
@@ -65,6 +69,11 @@ fun main(args: Array<String>) {
 }
 
 fun  createArgMapFromArgs(args: Array<String>): Map<String, String> {
+    if (args.size % 2 != 0) {
+        printHelp()
+        kotlin.system.exitProcess(0)
+    }
+
     val argMap = mutableMapOf<String, String>()
     for (i in 0..(args.size-1) step 2) {
         argMap.put(args[i], args[i+1])
@@ -84,6 +93,13 @@ fun getHinterFromArgMap(hinterArgument: String, argMap: Map<String, String>): Hi
         println("For $hinterArgument, using human agent")
         return HumanHintAgent()
     }
+}
+
+fun printHelp() {
+    println("Codenames game with AI hinters")
+    println("options:")
+    println("      -blueHinter maxRepAI | weightedAI | human")
+    println("      -redHinter maxRepAI | weightedAI | human")
 }
 
 fun isGameOver(board: Board, isRedTeamTurn: Boolean) : Boolean {
