@@ -5,6 +5,9 @@ abstract class AIHintAgent : HintAgent {
     val wordHintMap = constants.wordHintMap
     val previousHints = mutableSetOf<String>()
 
+    // because our dataset isn't very rich, any representation is considered relativally good
+    private val representativenessThreshold = 0.1
+
     override fun getHint(board: Board, onRedTeam: Boolean): Hint {
         val candidates = getHintCandidates(board, onRedTeam)
 

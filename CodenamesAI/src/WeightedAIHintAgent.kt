@@ -6,9 +6,6 @@ class WeightedAIHintAgent : AIHintAgent() {
 	private val otherTeamCardCost = -100.0
 	private val assassinCardCost = -1000.0
 	private val bystanderCardCost = -50.0
-	// because our dataset isn't very rich, any representation is considered relativally good
-	private val representativenessThreshold = 0.1
-
 
 	/**
      * This agent will select a hint with the highest representativeness to team word(s) on the board

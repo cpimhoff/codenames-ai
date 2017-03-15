@@ -8,9 +8,9 @@ class MaxRepresentativeAIHintAgent : AIHintAgent() {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
         val maxValueKey = table.filter { it.key.first.toUpperCase() in teamCards.map{ it.word.toUpperCase() } }.maxBy { it.value }
 
-        val hintWordWithMaxRepresentativeness = maxValueKey?.key?.second
+        val hintWordWithMaxRepresentativeness = maxValueKey?.key?.second!!
         val count = determineCount(hintWordWithMaxRepresentativeness, table, board, onRedTeam)
 
-        return Hint(hintWordWithMaxRepresentativeness!!, count)
+        return Hint(hintWordWithMaxRepresentativeness, count)
     }
 }
