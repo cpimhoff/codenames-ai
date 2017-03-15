@@ -109,6 +109,11 @@ class Board(val cards : List<WordCard>) {
 		println()
 	}
 
+	val words : List<String>
+		get() {
+			return this.cards.map { it.word }
+		}
+
 	val wordsInPlay : List<String>
 		get() {
 			val result = mutableListOf<String>()

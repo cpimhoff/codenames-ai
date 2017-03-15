@@ -37,6 +37,10 @@ abstract class AIHintAgent : HintAgent {
         // don't repeat hints
         candidates.removeAll(this.previousHints)
 
+        // don't allow hints to be any word on board
+        println(board.words)
+        candidates.removeAll(board.words)
+
         return candidates
     }
 
