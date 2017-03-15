@@ -9,6 +9,11 @@ class WeightedAIHintAgent : AIHintAgent() {
 	// because our dataset isn't very rich, any representation is considered relativally good
 	private val representativenessThreshold = 0.1
 
+
+	/**
+     * This agent will select a hint with the highest representativeness to team word(s) on the board
+     * taking into account the risk of giving a hint which represents the other cards.
+     */
 	override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint {
 		// get new candidates
 		val candidates = getHintCandidates(board, onRedTeam)
@@ -25,31 +30,6 @@ class WeightedAIHintAgent : AIHintAgent() {
 		val count = determineCount(hintWord, table, board, onRedTeam)
 
 		return Hint(hintWord, count)
-	}
-
-	// given a hint, count the amount of positive words it represents
-	fun determineCount(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Int {
-		val activatedCards = table.keys
-				.filter { it.second == hint }
-				.mapNotNull { board.findUnrevealedCard(it.first) }
-				.toSet()
-
-		var count = 0
-		for (card in activatedCards) {
-			val pair = Pair(card.word, hint)
-        	val representativeness = table[pair] ?: 0.0
-
-        	val teamCard = (onRedTeam && card.type == CardType.RED) || (!onRedTeam && card.type == CardType.BLUE)
-
-        	if (teamCard && representativeness > representativenessThreshold) {
-        		count += 1
-    		}
-		}
-
-		if (count < 1) {
-			return 1	// never give '0' hint
-		}
-		return count
 	}
 
 	// give a numeric score for the proposed hint for use when comparing to other hint options

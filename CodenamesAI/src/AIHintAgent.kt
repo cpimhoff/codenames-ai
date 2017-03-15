@@ -20,6 +20,7 @@ abstract class AIHintAgent : HintAgent {
     // abstract function-ish
     abstract fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint
 
+    // returns a list of hints worth considering
     internal fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
 
@@ -36,6 +37,32 @@ abstract class AIHintAgent : HintAgent {
         return candidates
     }
 
+    // given a hint, count the amount of positive words represented
+    internal fun determineCount(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Int {
+        val activatedCards = table.keys
+                .filter { it.second == hint }
+                .mapNotNull { board.findUnrevealedCard(it.first) }
+                .toSet()
+
+        var count = 0
+        for (card in activatedCards) {
+            val pair = Pair(card.word, hint)
+            val representativeness = table[pair] ?: 0.0
+
+            val teamCard = (onRedTeam && card.type == CardType.RED) || (!onRedTeam && card.type == CardType.BLUE)
+
+            if (teamCard && representativeness > representativenessThreshold) {
+                count += 1
+            }
+        }
+
+        if (count < 1) {
+            return 1    // never give '0' hint
+        }
+        return count
+    }
+
+    // calculates a table with the representativeness of each word-hint pair
     private fun getRepresentativenessTable(candidates: Set<String>, board: Board) : Map<Pair<String, String>, Double> {
         val table = HashMap<Pair<String, String>, Double>()
 
