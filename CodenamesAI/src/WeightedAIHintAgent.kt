@@ -5,16 +5,20 @@ class WeightedAIHintAgent : AIHintAgent() {
 	private val teamCardBonus = 100.0
 	private val otherTeamCardCost = -100.0
 	private val assassinCardCost = -1000.0
-	private val bystanderCardCost = -30.0
+	private val bystanderCardCost = -50.0
+	// because our dataset isn't very rich, any representation is considered relativally good
+	private val representativenessThreshold = 0.1
 
-	private val representativenessThreshold = 0.2
+	private val previousHints = mutableSetOf<String>()
 
 	override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint {
+		// get new candidates
+		val candidates = mutableSetOf<String>()
+		candidates.addAll(getHintCandidates(board, onRedTeam))
+		candidates.removeAll(previousHints)
 
-		// calculate score for each candidate hint
-		val candidates = getHintCandidates(board, onRedTeam)
+		// determine score for each
 		val scores = HashMap<String, Double>()
-
 		candidates.forEach { scores[it] = score(it, table, board, onRedTeam) }
 
 		// get the maximum scored hint
@@ -24,9 +28,11 @@ class WeightedAIHintAgent : AIHintAgent() {
 		// determine how many good words this activates
 		val count = determineCount(hintWord, table, board, onRedTeam)
 
+		previousHints.add(hintWord)
 		return Hint(hintWord, count)
 	}
 
+	// given a hint, count the amount of positive words it represents
 	fun determineCount(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Int {
 		val activatedCards = table.keys
 				.filter { it.second == hint }
@@ -51,6 +57,7 @@ class WeightedAIHintAgent : AIHintAgent() {
 		return count
 	}
 
+	// give a numeric score for the proposed hint for use when comparing to other hint options
 	fun score(hint: String, table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Double {
 		val activatedCards = table.keys
 				.filter { it.second == hint }
