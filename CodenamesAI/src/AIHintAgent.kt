@@ -38,7 +38,6 @@ abstract class AIHintAgent : HintAgent {
         candidates.removeAll(this.previousHints)
 
         // don't allow hints to be any word on board
-        println(board.words)
         candidates.removeAll(board.words)
 
         return candidates
