@@ -1,13 +1,18 @@
+import com.sun.deploy.util.ArgumentParsingUtil
 import constants.*
 
 fun main(args: Array<String>) {
     // Init board with random words and assignments to teams
     val board = Board.create()
-    // Init agents
-    val redHinter : HintAgent = MaxRepresentativeAIHintAgent()
-    val redGuesser : GuessAgent = HumanGuessAgent()
-    val blueHinter : HintAgent = WeightedAIHintAgent()
+
+    // Init hint agents from CLI arguments
+    val argMap = createArgMapFromArgs(args)
+    val blueHinter : HintAgent = getHinterFromArgMap("-blueHinter", argMap)
+    val redHinter : HintAgent = getHinterFromArgMap("-redHinter", argMap)
+
+    // Guessers are only implemented for humans:
     val blueGuesser : GuessAgent = HumanGuessAgent()
+    val redGuesser : GuessAgent = HumanGuessAgent()
 
     var isRedTeamTurn = constants.redGoesFirst
 
@@ -59,6 +64,28 @@ fun main(args: Array<String>) {
     }
 }
 
+fun  createArgMapFromArgs(args: Array<String>): Map<String, String> {
+    val argMap = mutableMapOf<String, String>()
+    for (i in 0..(args.size-1) step 2) {
+        argMap.put(args[i], args[i+1])
+    }
+
+    return argMap
+}
+
+fun getHinterFromArgMap(hinterArgument: String, argMap: Map<String, String>): HintAgent {
+    if (argMap[hinterArgument] == "maxRepAI") {
+        println("For $hinterArgument, using Max Representative AI hint agent")
+        return MaxRepresentativeAIHintAgent()
+    } else if (argMap[hinterArgument] == "weightedAI") {
+        println("For $hinterArgument, using Weighted AI hint agent")
+        return WeightedAIHintAgent()
+    } else {
+        println("For $hinterArgument, using human agent")
+        return HumanHintAgent()
+    }
+}
+
 fun isGameOver(board: Board, isRedTeamTurn: Boolean) : Boolean {
     if (board.redCardsLeft.isEmpty()) {
         // red win
@@ -72,7 +99,7 @@ fun isGameOver(board: Board, isRedTeamTurn: Boolean) : Boolean {
         return true
     } else if (board.assassinCardsLeft.isEmpty()) {
         // whoever went last loss
-        println("BOOM! Assassin has been actived!")
+        println("BOOM! Assassin has been activated!")
         if (isRedTeamTurn) {
             println("Blue team wins!")
         } else {
