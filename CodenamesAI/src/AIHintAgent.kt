@@ -3,6 +3,7 @@ import java.util.*
 abstract class AIHintAgent : HintAgent {
 
     val wordHintMap = constants.wordHintMap
+    val previousHints = mutableSetOf<String>()
 
     override fun getHint(board: Board, onRedTeam: Boolean): Hint {
         val candidates = getHintCandidates(board, onRedTeam)
@@ -11,7 +12,9 @@ abstract class AIHintAgent : HintAgent {
         val representativenessTable = getRepresentativenessTable(candidates, board)
 
         // select best option
-        return selectBestHint(representativenessTable, board, onRedTeam)
+        val hint = selectBestHint(representativenessTable, board, onRedTeam)
+        previousHints.add(hint.word)
+        return hint
     }
 
     // abstract function-ish
@@ -19,13 +22,16 @@ abstract class AIHintAgent : HintAgent {
 
     internal fun getHintCandidates(board: Board, onRedTeam: Boolean) : Set<String> {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
-        val candidates = wordHintMap.keys
-                .filter { pair -> pair.first in teamCards.map { it.word.toUpperCase() } }
-                .map { it.second }
-                .toSet()
 
         // go through each word-hint we've precalculated
         // and only keep the ones which have a listing for one of our cards on the board
+        val candidates = wordHintMap.keys
+                .filter { pair -> pair.first in teamCards.map { it.word.toUpperCase() } }
+                .map { it.second }
+                .toMutableSet()
+
+        // don't repeat hints
+        candidates.removeAll(this.previousHints)
 
         return candidates
     }
