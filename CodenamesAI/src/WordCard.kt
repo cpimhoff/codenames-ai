@@ -11,12 +11,15 @@ val ANSI_BLACK_BACKGROUND = "\u001B[40m"
 
 data class WordCard(val word: String, val type: CardType, var revealed: Boolean = false) {
 
+	val casedWord : String
+		get() { return this.word.toLowerCase().capitalize() }
+
 	override fun toString() : String {
 		when(this.type) {
-			CardType.BLUE -> return ANSI_BLUE + word + ANSI_RESET
-			CardType.RED -> return ANSI_RED + word + ANSI_RESET
-			CardType.NEUTRAL -> return ANSI_YELLOW + word + ANSI_RESET
-			CardType.ASSASSIN -> return ANSI_WHITE + ANSI_BLACK_BACKGROUND + word + ANSI_RESET
+			CardType.BLUE -> return ANSI_BLUE + casedWord + ANSI_RESET
+			CardType.RED -> return ANSI_RED + casedWord + ANSI_RESET
+			CardType.NEUTRAL -> return ANSI_YELLOW + casedWord + ANSI_RESET
+			CardType.ASSASSIN -> return ANSI_WHITE + ANSI_BLACK_BACKGROUND + casedWord + ANSI_RESET
 		}
 	}
 
@@ -24,7 +27,7 @@ data class WordCard(val word: String, val type: CardType, var revealed: Boolean 
 		if (this.revealed) {
 			return this.toString()
 		} else {
-			return this.word
+			return this.casedWord
 		}
 	}
 
