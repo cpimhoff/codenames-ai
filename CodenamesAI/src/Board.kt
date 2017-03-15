@@ -40,7 +40,7 @@ class Board(val cards : List<WordCard>) {
 		// create with randomized words
 		fun create() : Board {
 			// gather all possible words
-			val allWords = constants.allCodenameWords()
+			val allWords = constants.allCodenameWords
 
 			// generate a random set of indices
 			val indexSet = mutableSetOf<Int>()

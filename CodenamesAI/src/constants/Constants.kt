@@ -17,19 +17,20 @@ val totalCardCount = assassinCardCount + redCardCount + blueCardCount + bystande
 
 val redGoesFirst = true
 
-fun allCodenameWords() : List<String> {
-	val allWords = File("CodenameWords.txt")
-	val lines = allWords.readLines()
+val allCodenameWords : List<String> 
+    get() {
+    	val allWords = File("CodenameWords.txt")
+    	val lines = allWords.readLines()
 
-	val result = mutableListOf<String>()
-	lines.forEach {
-		if (it != "") {
-			result.add(it)
-		}
-	}
+    	val result = mutableListOf<String>()
+    	lines.forEach {
+    		if (it != "") {
+    			result.add(it)
+    		}
+    	}
 
-	return result
-}
+    	return result
+    }
 
 val wordHintMap: Map<Pair<String, String>, Double>
     get() {
