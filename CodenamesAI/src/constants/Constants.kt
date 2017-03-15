@@ -43,9 +43,9 @@ val wordHintMap: Map<Pair<String, String>, Double>
         rows.forEach {
             val columns = it.split(",")
 
-            // Remove quotes from words
+            // Remove quotes and leading whitespace from words
             val word = columns[1].removeSurrounding(prefix = "\"", suffix = "\"")
-            val hint = columns[2].removeSurrounding(prefix = "\"", suffix = "\"")
+            val hint = columns[2].removeSurrounding(prefix = "\" ", suffix = "\"")
 
             val hintProbabilityGivenWord = columns[7].toDouble()
 
