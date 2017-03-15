@@ -13,12 +13,13 @@ class HumanGuessAgent : GuessAgent {
 class HumanHintAgent : HintAgent {
 
 	override fun getHint(board: Board, onRedTeam: Boolean) : Hint {
-		// print information to screen
+		// print information to screen (as confidentially as a command line application allows)
 		board.printHinterView()
-
-		val teamColor = if (onRedTeam) "Red" else "Blue"
+		println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")	// add some space, so as to hide the above from human guesser eyes!
+		println("-- hinter view above, scroll up to view --")
 
 		// prompt
+		val teamColor = if (onRedTeam) "Red" else "Blue"
 		println("Give Hint for $teamColor Team:")
 
 		// loop until a successfully parsed hint
