@@ -9,13 +9,9 @@ class WeightedAIHintAgent : AIHintAgent() {
 	// because our dataset isn't very rich, any representation is considered relativally good
 	private val representativenessThreshold = 0.1
 
-	private val previousHints = mutableSetOf<String>()
-
 	override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean) : Hint {
 		// get new candidates
-		val candidates = mutableSetOf<String>()
-		candidates.addAll(getHintCandidates(board, onRedTeam))
-		candidates.removeAll(previousHints)
+		val candidates = getHintCandidates(board, onRedTeam)
 
 		// determine score for each
 		val scores = HashMap<String, Double>()
@@ -28,7 +24,6 @@ class WeightedAIHintAgent : AIHintAgent() {
 		// determine how many good words this activates
 		val count = determineCount(hintWord, table, board, onRedTeam)
 
-		previousHints.add(hintWord)
 		return Hint(hintWord, count)
 	}
 
