@@ -66,6 +66,9 @@ fun main(args: Array<String>) {
         // progress to next turn
         isRedTeamTurn = !isRedTeamTurn
     }
+
+    // at the end of the game, reveal the entire board
+    board.printFullView()
 }
 
 fun  createArgMapFromArgs(args: Array<String>): Map<String, String> {

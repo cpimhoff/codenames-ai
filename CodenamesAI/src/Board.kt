@@ -68,6 +68,23 @@ class Board(val cards : List<WordCard>) {
 	}
 
 	// description of the board with all information
+	fun printFullView() {
+		val rows = 4
+		val columns = cards.size / rows
+
+		println()
+		for (i in 0..cards.size - 1) {
+			val card = cards[i]
+			print(card.toString() + "  ")
+			if (i != 0 && i % columns == 0) {
+				println()	// newline
+			}
+		}
+		println()
+	}
+
+	// description of the board with all
+	// relevant information to hinter
 	fun printHinterView() {
 		val rows = 4
 		val columns = cards.size / rows
@@ -76,7 +93,7 @@ class Board(val cards : List<WordCard>) {
 		for (i in 0..cards.size - 1) {
 			val card = cards[i]
 			if (card.revealed) {
-				print("        ")	// empty spot
+				print("     ")	// empty spot
 			} else {
 				print(card.toString() + "  ")
 			}
