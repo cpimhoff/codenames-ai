@@ -1,8 +1,7 @@
 class MaxRepresentativeAIHintAgent : AIHintAgent() {
 
     /**
-     * This agent will select a hint with the highest representativeness
-     *  and give that hint for only one word.
+     * This agent will select a hint with the highest representativeness for any SINGLE good word on the board
      */
     override fun selectBestHint(table: Map<Pair<String, String>, Double>, board: Board, onRedTeam: Boolean): Hint {
         val teamCards = if (onRedTeam) board.redCardsLeft else board.blueCardsLeft
